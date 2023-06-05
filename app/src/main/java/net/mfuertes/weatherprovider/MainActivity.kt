@@ -27,6 +27,13 @@ class MainActivity : AppCompatActivity() {
         NotificationHelper.createNotificationChannel(this)
 
         var fab: ExtendedFloatingActionButton = findViewById(R.id.startstop)
+        if(WeatherWorker.isScheduled(this)){
+            fab.text = getText(R.string.unschedule)
+            fab.icon = getDrawable(R.drawable.baseline_stop_24)
+        }else{
+            fab.text = getText(R.string.schedule)
+            fab.icon = getDrawable(R.drawable.baseline_play_arrow_24)
+        }
         fab.setOnClickListener {
             if(fab.text == getString(R.string.schedule)){
                 WeatherWorker.scheduleFetcher(this)

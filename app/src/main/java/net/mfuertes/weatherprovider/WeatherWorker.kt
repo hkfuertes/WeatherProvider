@@ -16,6 +16,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
@@ -141,7 +142,9 @@ class WeatherWorker(context: Context, workerParams: WorkerParameters) :
         }
 
         fun isScheduled(context: Context, tag: String = WORKER_TAG): Boolean {
-            return WorkManager.getInstance(context).getWorkInfosByTag(tag).get().size > 0
+            return  WorkManager.getInstance(context).getWorkInfosByTag(tag).get().all{
+                it.state == WorkInfo.State.ENQUEUED
+            }
         }
     }
 }
