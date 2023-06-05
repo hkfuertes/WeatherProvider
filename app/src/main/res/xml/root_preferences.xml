@@ -1,0 +1,24 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        app:icon="@drawable/baseline_key_24"
+        app:key="owm_key"
+        app:title="OpenWeatherMap API Key"
+        app:useSimpleSummaryProvider="true" />
+
+    <SwitchPreference
+        app:defaultValue="false"
+        app:icon="@drawable/baseline_notifications_24"
+        app:key="show_notification"
+        app:summary="Show notification on weather update"
+        app:title="Notification"
+        app:useSimpleSummaryProvider="true" />
+
+    <PreferenceCategory android:title="Debug">
+    <Preference
+        app:key="force_update"
+        app:icon="@drawable/baseline_restart_alt_24"
+        app:summary="Request weather now"
+        app:title="Reload" />
+    </PreferenceCategory>
+</PreferenceScreen>

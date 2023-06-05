@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Weather Provider</string>
+    <string name="schedule">SCHEDULE</string>
+    <string name="unschedule">UNSCHEDULE</string>
+</resources>
