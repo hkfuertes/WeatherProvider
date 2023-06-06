@@ -1,5 +1,5 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <EditTextPreference
         app:icon="@drawable/baseline_key_24"
         app:key="owm_key"
@@ -14,11 +14,17 @@
         app:title="Notification"
         app:useSimpleSummaryProvider="true" />
 
-    <PreferenceCategory android:title="Debug">
     <Preference
-        app:key="force_update"
         app:icon="@drawable/baseline_restart_alt_24"
+        app:key="force_update"
         app:summary="Request weather now"
-        app:title="Reload" />
-    </PreferenceCategory>
+        app:title="Current" />
+
+    <Preference
+        app:enabled="false"
+        app:icon="@drawable/baseline_info_24"
+        app:key="schedule"
+        app:summary="... as long as API Key and location are present."
+        app:title="Retrieving every 15 min"
+        app:useSimpleSummaryProvider="true" />
 </PreferenceScreen>
