@@ -27,13 +27,21 @@ class WeatherFetcher {
                     "&lon=" + longitude +
                     "&appid=" + apiKey;
 
+            val geoUrl = "http://api.openweathermap.org/geo/1.0/reverse" +
+                    "?lat=" + latitude +
+                    "&lon=" + longitude +
+                    "&limit=1" +
+                    "&appid=" + apiKey;
+
             Log.d("WeatherFetcher", url)
+            Log.d("WeatherFetcher", geoUrl)
 
             return try {
-                val response = parse(URL(url).readText())
+                val response = parseObject(URL(url).readText())
+                val geoResponse = parseArray(URL(geoUrl).readText())
 
                 if (response != null) {
-                    var weatherObject = currentWeather(response)
+                    var weatherObject = currentWeather(response, geoResponse)
                     addForecast(weatherObject, response)
 
                     weatherObject;
@@ -45,9 +53,17 @@ class WeatherFetcher {
 
         }
 
-        private fun parse(json: String): JSONObject? {
+        private fun parseObject(json: String): JSONObject? {
             return try {
                 JSONObject(json)
+            } catch (e: JSONException) {
+                null
+            }
+        }
+
+        private fun parseArray(json: String): JSONArray? {
+            return try {
+                JSONArray(json)
             } catch (e: JSONException) {
                 null
             }
@@ -61,11 +77,10 @@ class WeatherFetcher {
             )
         }
 
-        private fun currentWeather(response: JSONObject): JSONObject {
+        private fun currentWeather(response: JSONObject, geoResponse: JSONArray?): JSONObject {
             val weatherJson = JSONObject()
 
             weatherJson.put("timestamp", (Calendar.getInstance().timeInMillis / 1000).toInt())
-            //weatherJson.put("location", weatherLocation.name) //TODO: Send location name.
             weatherJson.put("currentTemp", response.getJSONObject("current").getInt("temp"))
             weatherJson.put(
                 "todayMinTemp",
@@ -88,6 +103,10 @@ class WeatherFetcher {
             weatherJson.put("currentHumidity", response.getJSONObject("current").getInt("humidity"))
             weatherJson.put("windSpeed", response.getJSONObject("current").getInt("wind_speed"))
             weatherJson.put("windDirection", response.getJSONObject("current").getInt("wind_deg"))
+
+            if(geoResponse != null){
+                weatherJson.put("location", geoResponse.getJSONObject(0).getString("name")) //TODO: Send location name.
+            }
 
             return weatherJson;
         }

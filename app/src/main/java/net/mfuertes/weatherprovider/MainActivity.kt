@@ -1,10 +1,11 @@
 package net.mfuertes.weatherprovider
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import net.mfuertes.weatherprovider.helpers.NotificationHelper
+import net.mfuertes.weatherprovider.helpers.PermissionsHelper
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
