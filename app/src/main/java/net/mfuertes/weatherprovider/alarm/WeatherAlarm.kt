@@ -25,7 +25,7 @@ class WeatherAlarm : BroadcastReceiver() {
     private val APIKEY = "966f9979caf0bf53ff0706a981c17d49"
     override fun onReceive(context: Context, intent: Intent) {
         val key = PreferenceManager.getDefaultSharedPreferences(context)
-            .getString("owm_key", APIKEY)
+            .getString("owm_key", null)
         val showNotification = PreferenceManager.getDefaultSharedPreferences(context)
             .getBoolean("show_notification", true)
 
