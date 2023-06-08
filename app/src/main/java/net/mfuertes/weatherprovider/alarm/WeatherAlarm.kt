@@ -58,10 +58,6 @@ class WeatherAlarm : BroadcastReceiver() {
     }
 
     companion object {
-        private fun now(): Long {
-            return Calendar.getInstance().timeInMillis
-        }
-
         fun setAlarm(
             context: Context,
             millis: Long = AlarmManager.INTERVAL_FIFTEEN_MINUTES
@@ -69,31 +65,16 @@ class WeatherAlarm : BroadcastReceiver() {
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(context, WeatherAlarm::class.java)
             //val intent = Intent("net.mfuertes.weatherprovider.weatheralarm")
+            val now = Calendar.getInstance().timeInMillis
             val pendingIntent = PendingIntent
-                .getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT)
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, now(), millis, pendingIntent)
+                .getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, now, millis, pendingIntent)
         }
 
         fun trigger(context: Context) {
             //val intent = Intent("net.mfuertes.weatherprovider.weatheralarm")
             val intent = Intent(context, WeatherAlarm::class.java)
             context.sendBroadcast(intent)
-        }
-
-        fun isAlarmSet(context: Context): Boolean {
-            return PendingIntent.getBroadcast(
-                context, 0,
-                Intent(context, WeatherAlarm::class.java),
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
-            ) != null
-        }
-
-        fun cancelAlarm(context: Context) {
-            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val intent = Intent(context, WeatherAlarm::class.java)
-            val pendingIntent = PendingIntent
-                .getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-            alarmManager.cancel(pendingIntent)
         }
     }
 }
