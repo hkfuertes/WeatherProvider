@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Weather Provider</string>
-    <string name="schedule">SCHEDULE</string>
-    <string name="unschedule">UNSCHEDULE</string>
+    <string name="running">Alarm is set</string>
+    <string name="not_running">Alarm is not set</string>
 </resources>

@@ -2,6 +2,7 @@ package net.mfuertes.weatherprovider
 
 import android.content.Context
 import android.content.Intent
+import android.os.AsyncTask
 import android.util.Log
 import org.json.JSONArray
 import org.json.JSONException
@@ -11,12 +12,8 @@ import java.net.URL
 import java.util.Calendar
 
 
-class WeatherFetcher {
+class WeatherFetcher{
     companion object {
-        // In case OWM decides that's enough
-        private const val RESPONSE =
-            "{\"timestamp\":1685981122,\"currentTemp\":297,\"todayMinTemp\":289,\"todayMaxTemp\":298,\"currentCondition\":\"scattered clouds\",\"currentConditionCode\":802,\"currentHumidity\":45,\"windSpeed\":4,\"windDirection\":340,\"forecasts\":[{\"conditionCode\":500,\"humidity\":36,\"maxTemp\":300,\"minTemp\":289},{\"conditionCode\":501,\"humidity\":79,\"maxTemp\":296,\"minTemp\":289},{\"conditionCode\":500,\"humidity\":50,\"maxTemp\":295,\"minTemp\":288},{\"conditionCode\":500,\"humidity\":48,\"maxTemp\":297,\"minTemp\":289},{\"conditionCode\":804,\"humidity\":37,\"maxTemp\":300,\"minTemp\":290},{\"conditionCode\":500,\"humidity\":32,\"maxTemp\":302,\"minTemp\":291},{\"conditionCode\":801,\"humidity\":27,\"maxTemp\":301,\"minTemp\":291}]}\n"
-
         private const val ACTION_GENERIC_WEATHER =
             "nodomain.freeyourgadget.gadgetbridge.ACTION_GENERIC_WEATHER"
         private const val EXTRA_WEATHER_JSON = "WeatherJson"
@@ -33,12 +30,15 @@ class WeatherFetcher {
                     "&limit=1" +
                     "&appid=" + apiKey;
 
-            Log.d("WeatherFetcher", url)
-            Log.d("WeatherFetcher", geoUrl)
+            Log.d("WeatherFetcher:Url", url)
+            Log.d("WeatherFetcher:GeoUrl", geoUrl)
 
             return try {
                 val response = parseObject(URL(url).readText())
                 val geoResponse = parseArray(URL(geoUrl).readText())
+
+                //Log.d("WeatherFetcher:Response", response.toString())
+                //Log.d("WeatherFetcher:GeoResponse", geoResponse.toString())
 
                 if (response != null) {
                     var weatherObject = currentWeather(response, geoResponse)
@@ -48,6 +48,7 @@ class WeatherFetcher {
                 } else
                     null
             } catch (ex: Exception) {
+                Log.d("WeatherFetcher:Exception", ex.toString())
                 null
             }
 
@@ -142,4 +143,6 @@ class WeatherFetcher {
             weatherObject.put("forecasts", weatherForecasts)
         }
     }
+
+
 }

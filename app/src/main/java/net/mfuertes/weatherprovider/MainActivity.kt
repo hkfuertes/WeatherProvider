@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import net.mfuertes.weatherprovider.alarm.WeatherAlarm
 import net.mfuertes.weatherprovider.helpers.NotificationHelper
 import net.mfuertes.weatherprovider.helpers.PermissionsHelper
 
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         PermissionsHelper.requestBatteryOptimization(this)
         NotificationHelper.createNotificationChannel(this)
 
-        WeatherWorker.scheduleFetcher(this)
+        WeatherAlarm.setAlarm(this)
     }
 
     class SettingsFragment : PreferenceFragmentCompat(){
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
             val forceUpdate: Preference = preferenceManager.findPreference("force_update")!!
             forceUpdate.setOnPreferenceClickListener {
-                WeatherWorker.scheduleFetcherOneTime(requireContext())
+                WeatherAlarm.trigger(requireContext())
                 true
             }
         }
