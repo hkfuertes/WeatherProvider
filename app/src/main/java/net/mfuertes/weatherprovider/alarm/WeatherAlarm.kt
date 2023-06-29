@@ -68,7 +68,7 @@ class WeatherAlarm : BroadcastReceiver() {
             val now = Calendar.getInstance().timeInMillis
             val pendingIntent = PendingIntent
                 .getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, now, millis, pendingIntent)
+            alarmManager.setRepeating(AlarmManager.RTC, now, millis, pendingIntent)
         }
 
         fun trigger(context: Context) {
